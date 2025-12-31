@@ -69,10 +69,22 @@ export default function WhyHireMe() {
           <p className="text-muted-foreground max-w-2xl mx-auto mb-8">
             As a student, I bring fresh perspectives, high energy, and a commitment to professional growth. Let's discuss how I can help your organization succeed.
           </p>
-          <Button size="lg" className="h-12 px-8 gap-2 rounded-full font-bold shadow-lg shadow-primary/25 hover:scale-105 transition-transform">
+          <Button
+            size="lg"
+            className="h-12 px-8 gap-2 rounded-full font-bold shadow-lg shadow-primary/25 hover:scale-105 transition-transform"
+            onClick={() => {
+              const link = document.createElement("a");
+              link.href = "../../Resources/images/xyz.png";
+              link.download = "../../Resources/images/xyz.png";
+              link.click();
+            }}
+          >
             <Download className="w-5 h-5" />
             Download My Resume
           </Button>
+
+
+
         </motion.div>
       </div>
     </section>
