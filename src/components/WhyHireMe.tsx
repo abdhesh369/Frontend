@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { CheckCircle2, Award, Zap, ShieldCheck, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+
 const points = [
   {
     title: "Strong Fundamentals",
@@ -73,9 +74,10 @@ export default function WhyHireMe() {
             size="lg"
             className="h-12 px-8 gap-2 rounded-full font-bold shadow-lg shadow-primary/25 hover:scale-105 transition-transform"
             onClick={() => {
+              // Create a temporary link and trigger download
               const link = document.createElement("a");
-              link.href = "../../Resources/images/xyz.png";
-              link.download = "../../Resources/images/xyz.png";
+              link.href = "/xyz.png"; // path from public
+              link.download = "xyz.png"; // filename for download
               link.click();
             }}
           >
