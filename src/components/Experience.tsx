@@ -186,7 +186,7 @@ export default function Experience() {
   const work = (experiences as any[])?.filter(e => e.type === "Experience") || [];
 
   return (
-    <section id="experience" className="section-container bg-muted/30 overflow-hidden">
+    <section id="experience" className="section-container overflow-hidden">
       {/* Section Header */}
       <div className="text-center mb-16">
         <motion.h2

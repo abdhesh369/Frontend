@@ -1,5 +1,5 @@
 import { useState, useRef, useMemo, useEffect } from "react";
-import { FloatingParticles } from "@/components/FloatingParticles";
+
 import { motion, AnimatePresence } from "framer-motion";
 import { useProjects } from "@/hooks/use-portfolio";
 import { Github, ExternalLink, Folder, Code, Layers, X, ArrowRight, Sparkles, Cpu } from "lucide-react";
@@ -506,39 +506,7 @@ export default function Projects() {
     <section
       id="projects"
       className="relative py-20 md:py-28 overflow-hidden"
-      style={{
-        background: 'linear-gradient(180deg, #050510 0%, #0a0520 30%, #0d0525 60%, #050510 100%)'
-      }}
     >
-      {/* Background Effects */}
-      <div className="absolute inset-0">
-        <FloatingParticles />
-
-        {/* Nebula gradients */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background: `
-              radial-gradient(ellipse 60% 40% at 20% 30%, rgba(0, 212, 255, 0.08) 0%, transparent 50%),
-              radial-gradient(ellipse 50% 40% at 80% 60%, rgba(168, 85, 247, 0.08) 0%, transparent 50%),
-              radial-gradient(ellipse 70% 50% at 50% 80%, rgba(236, 72, 153, 0.05) 0%, transparent 40%)
-            `
-          }}
-        />
-
-        {/* Subtle grid */}
-        <div
-          className="absolute inset-0 opacity-[0.02]"
-          style={{
-            backgroundImage: `
-              linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)
-            `,
-            backgroundSize: '60px 60px'
-          }}
-        />
-      </div>
-
       <div className="container mx-auto px-4 relative z-10">
         {/* Header */}
         <div className="text-center mb-12">

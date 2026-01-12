@@ -3,7 +3,6 @@ import { useEffect, useState, useRef } from "react";
 import { ArrowRight, Github, Linkedin, Mail, ChevronDown, Sparkles, Terminal, Cpu, Globe } from "lucide-react";
 import Typewriter from "typewriter-effect";
 import profileImg from "../../Resources/images/Myphoto.jpg";
-import { FloatingParticles } from "@/components/FloatingParticles";
 import { Button } from "@/components/ui/button";
 
 // Mouse Follower Gradient
@@ -194,23 +193,7 @@ export default function Hero() {
   return (
     <section id="hero" className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
       <MouseGradient />
-      <FloatingParticles />
-
-      {/* Background Glows */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-[-20%] right-[-10%] w-[600px] h-[600px] bg-purple-600/20 rounded-full blur-[120px] mix-blend-screen" />
-        <div className="absolute bottom-[-20%] left-[-10%] w-[500px] h-[500px] bg-cyan-600/20 rounded-full blur-[100px] mix-blend-screen" />
-      </div>
-
-      {/* Grid Overlay */}
-      <div
-        className="absolute inset-0 opacity-[0.05] pointer-events-none"
-        style={{
-          backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px)`,
-          backgroundSize: '50px 50px',
-          maskImage: 'radial-gradient(ellipse at center, black 40%, transparent 80%)'
-        }}
-      />
+      <MouseGradient />
 
       <div className="section-container relative z-10 w-full px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
