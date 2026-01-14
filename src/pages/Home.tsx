@@ -20,7 +20,7 @@ export default function Home() {
   });
 
   return (
-    <div className="bg-background min-h-screen selection:bg-primary/20">
+    <div className="min-h-screen selection:bg-primary/20">
       {/* Scroll Progress Bar */}
       <motion.div
         className="fixed top-0 left-0 right-0 h-1 bg-primary z-[100] origin-left"
