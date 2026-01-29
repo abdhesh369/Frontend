@@ -290,8 +290,8 @@ export default function WhyHireMe() {
                   className="h-14 px-8 gap-3 rounded-full font-bold shadow-lg shadow-primary/25 text-base"
                   onClick={() => {
                     const link = document.createElement("a");
-                    link.href = "/xyz.png";
-                    link.download = "xyz.png";
+                    link.href = "/Abdhesh_Sah_CV.docx";
+                    link.download = "Abdhesh_Sah_CV.docx";
                     link.click();
                   }}
                 >
