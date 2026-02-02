@@ -27,13 +27,13 @@
         "./src/*"
       ],
       "@shared/*": [
-        "../Backend/shared/*"
+        "./shared/*"
       ]
     }
   },
   "include": [
     "src",
-    "../Backend/shared"
+    "shared"
   ],
   "references": [
     {
