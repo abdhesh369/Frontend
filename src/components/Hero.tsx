@@ -83,7 +83,7 @@ const ProfileCard = () => {
         {/* Profile Image */}
         <img
           src={profileImg}
-          alt="Abdhesh"
+          alt="Abdhesh Sah - Full Stack Engineer & System Designer"
           loading="eager"
           className="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-overlay grayscale hover:grayscale-0 transition-all duration-700"
         />
