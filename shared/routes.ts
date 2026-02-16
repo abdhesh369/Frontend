@@ -6,10 +6,12 @@ import {
     experienceSchema,
     messageSchema,
     mindsetSchema,
+    analyticsSchema,
     insertProjectApiSchema,
     insertSkillApiSchema,
     insertExperienceApiSchema,
     insertMessageApiSchema,
+    insertAnalyticsSchema,
 } from "./schema.js";
 
 // ==================== ERROR SCHEMAS ====================
@@ -342,6 +344,33 @@ export const api = {
                 401: errorSchemas.unauthorized,
                 403: errorSchemas.forbidden,
                 404: errorSchemas.notFound,
+                500: errorSchemas.internal,
+            },
+        },
+    },
+
+    // ---------- ANALYTICS ----------
+    analytics: {
+        track: {
+            method: "POST" as const,
+            path: "/api/analytics/track",
+            description: "Log an analytics event (public)",
+            input: insertAnalyticsSchema,
+            responses: {
+                201: analyticsSchema,
+                400: errorSchemas.validation,
+                500: errorSchemas.internal,
+            },
+        },
+        summary: {
+            method: "GET" as const,
+            path: "/api/analytics/summary",
+            description: "Get analytics summary (admin only)",
+            requiresAuth: true,
+            responses: {
+                200: z.any(), // Flexibly aggregate summary data
+                401: errorSchemas.unauthorized,
+                403: errorSchemas.forbidden,
                 500: errorSchemas.internal,
             },
         },
