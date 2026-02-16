@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { RichTextEditor } from "@/components/admin/RichTextEditor";
 import { ImageUpload } from "@/components/admin/ImageUpload";
+import { AnalyticsOverview } from "@/components/admin/AnalyticsOverview";
 import type { Project, Skill, Experience, Message } from "@shared/schema";
 import {
     DndContext,
@@ -30,7 +31,7 @@ const API_BASE_URL = import.meta.env.DEV
     ? "http://localhost:5000"
     : (import.meta.env.VITE_API_URL || "http://localhost:5000");
 
-type Tab = "overview" | "messages" | "projects" | "skills" | "experiences";
+type Tab = "overview" | "analytics" | "messages" | "projects" | "skills" | "experiences";
 
 /* =================================================================== */
 /* Helpers                                                              */
@@ -65,6 +66,7 @@ export default function AdminDashboard() {
 
     const tabs: { key: Tab; label: string; icon: string }[] = [
         { key: "overview", label: "Overview", icon: "📊" },
+        { key: "analytics", label: "Analytics", icon: "📈" },
         { key: "messages", label: "Messages", icon: "✉️" },
         { key: "projects", label: "Projects", icon: "🚀" },
         { key: "skills", label: "Skills", icon: "⚡" },
@@ -116,6 +118,7 @@ export default function AdminDashboard() {
             {/* ============ CONTENT ============ */}
             <main className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
                 {tab === "overview" && <OverviewTab token={token} />}
+                {tab === "analytics" && <AnalyticsOverview />}
                 {tab === "messages" && <MessagesTab token={token} />}
                 {tab === "projects" && <ProjectsTab token={token} />}
                 {tab === "skills" && <SkillsTab token={token} />}

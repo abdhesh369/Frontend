@@ -6,6 +6,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/theme-provider";
 import { PlexusBackground } from "@/components/PlexusBackground";
 import { AuthProvider, ProtectedRoute } from "@/hooks/auth-context";
+import { AnalyticsTracker } from "@/components/AnalyticsTracker";
 
 // Lazy load pages for better performance
 const Home = lazy(() => import("@/pages/Home"));
@@ -67,6 +68,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <ThemeProvider defaultTheme="dark" storageKey="portfolio-theme">
         <AuthProvider>
+          <AnalyticsTracker />
           <ConditionalBackground />
           <Router />
           <Toaster />

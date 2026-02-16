@@ -212,6 +212,22 @@ export function useLogin() {
   });
 }
 
+export function useAnalyticsSummary() {
+  return useQuery({
+    queryKey: ["analytics-summary"],
+    queryFn: () => {
+      const token = localStorage.getItem("auth_token");
+      if (!token) throw new Error("Unauthorized");
+
+      return fetchAndParse(
+        "/api/analytics/summary",
+        { parse: (d) => d }, // Flexibly handle summary data
+        "Failed to fetch analytics summary"
+      );
+    },
+  });
+}
+
 /**
  * Logout utility
  */
