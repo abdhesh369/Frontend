@@ -11,7 +11,6 @@ export function AnalyticsTracker() {
         // 1. Log to our own backend
         const trackPageView = async () => {
             try {
-                // Basic visitor info gathering
                 const userAgent = navigator.userAgent;
                 const info = {
                     type: "page_view",
@@ -19,7 +18,6 @@ export function AnalyticsTracker() {
                     browser: getBrowser(userAgent),
                     os: getOS(userAgent),
                     device: /Mobi|Android/i.test(userAgent) ? "mobile" : "desktop",
-                    // Country/City would typically be handled on the backend via IP
                 };
 
                 await fetch(`${API_BASE_URL}/api/analytics/track`, {
@@ -35,10 +33,27 @@ export function AnalyticsTracker() {
         trackPageView();
 
         // 2. Log to Google Analytics if configured
-        if (GA_MEASUREMENT_ID && (window as any).gtag) {
+        if (GA_MEASUREMENT_ID) {
+            // Load script if not already present
+            if (!(window as any).gtag) {
+                const script = document.createElement("script");
+                script.async = true;
+                script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
+                document.head.appendChild(script);
+
+                (window as any).dataLayer = (window as any).dataLayer || [];
+                (window as any).gtag = function () {
+                    (window as any).dataLayer.push(arguments);
+                };
+                (window as any).gtag("js", new Date());
+            }
+
+            // Track page view
             (window as any).gtag("config", GA_MEASUREMENT_ID, {
                 page_path: location,
             });
+
+            console.log(`[GA] Tracking page view: ${location}`);
         }
     }, [location]);
 
