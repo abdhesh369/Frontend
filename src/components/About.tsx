@@ -1,4 +1,4 @@
-import { motion, useInView, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { m, useInView, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import { User, GraduationCap, MapPin, Mail, Code, Calendar, Zap, Heart, Target, BookOpen, Layers, Monitor, Terminal, Cpu, Sparkles } from "lucide-react";
 // ...existing code... (profile image moved to public/images/hero.svg)
@@ -47,7 +47,7 @@ const TiltCard = ({ children }: { children: React.ReactNode }) => {
   };
 
   return (
-    <motion.div
+    <m.div
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={{
@@ -58,7 +58,7 @@ const TiltCard = ({ children }: { children: React.ReactNode }) => {
       className="relative w-full h-full perspective-1000"
     >
       {children}
-    </motion.div>
+    </m.div>
   );
 };
 
@@ -90,7 +90,7 @@ const AnimatedCounter = ({ value, suffix = "", label, icon: Icon }: { value: num
   }, [isInView, value]);
 
   return (
-    <motion.div
+    <m.div
       ref={ref}
       initial={{ opacity: 0, scale: 0.9 }}
       whileInView={{ opacity: 1, scale: 1 }}
@@ -108,14 +108,14 @@ const AnimatedCounter = ({ value, suffix = "", label, icon: Icon }: { value: num
         </div>
         <span className="text-xs text-gray-400 font-mono tracking-wider uppercase">{label}</span>
       </div>
-    </motion.div>
+    </m.div>
   );
 };
 
 // Holographic Info Card
 const InfoCard = ({ icon: Icon, label, value, delay, color = "cyan" }: { icon: React.ElementType; label: string; value: string; delay: number, color?: "cyan" | "purple" }) => {
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
@@ -137,13 +137,13 @@ const InfoCard = ({ icon: Icon, label, value, delay, color = "cyan" }: { icon: R
           <p className="font-semibold text-gray-200 group-hover:text-white transition-colors">{value}</p>
         </div>
       </div>
-    </motion.div>
+    </m.div>
   );
 };
 
 // Timeline Node
 const TimelineItem = ({ year, title, description, delay }: { year: string; title: string; description: string; delay: number }) => (
-  <motion.div
+  <m.div
     initial={{ opacity: 0, x: -20 }}
     whileInView={{ opacity: 1, x: 0 }}
     viewport={{ once: true }}
@@ -165,7 +165,7 @@ const TimelineItem = ({ year, title, description, delay }: { year: string; title
       {title}
     </div>
     <div className="text-sm text-gray-400 leading-relaxed font-light group-hover:text-gray-300 transition-colors">{description}</div>
-  </motion.div>
+  </m.div>
 );
 
 const Highlight = ({ children, color = "cyan" }: { children: React.ReactNode, color?: "cyan" | "purple" }) => (
@@ -179,16 +179,16 @@ export default function About() {
   return (
     <section id="about" className="section-container scroll-mt-20 overflow-hidden py-24 relative">
       <div className="text-center mb-20 relative z-10">
-        <motion.div
+        <m.div
           initial={{ opacity: 0, scale: 0.8 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           className="inline-block px-4 py-1.5 rounded-full border border-cyan-500/30 bg-cyan-500/10 text-cyan-400 text-sm font-mono mb-4 backdrop-blur-md"
         >
            // SYSTEM_PROFILE_LOADED
-        </motion.div>
+        </m.div>
 
-        <motion.h2
+        <m.h2
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -196,7 +196,7 @@ export default function About() {
           className="text-4xl md:text-5xl font-bold font-display"
         >
           <span className="text-white">About</span> <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500"><GlitchText text="Me" /></span>
-        </motion.h2>
+        </m.h2>
       </div>
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -217,7 +217,7 @@ export default function About() {
                   <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 to-purple-500/10 z-10 mix-blend-color-dodge opacity-50" />
 
                   <img
-                    src="/images/Myphoto.jpg"
+                    src="/images/Myphoto.webp"
                     alt="Abdhesh Sah - Full-Stack Engineer"
                     loading="lazy"
                     decoding="async"
@@ -273,7 +273,7 @@ export default function About() {
           <div className="lg:col-span-7 space-y-12">
 
             {/* Bio Section */}
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -295,7 +295,7 @@ export default function About() {
                   Today, I focus on building <Highlight color="purple">scalable web systems</Highlight> and analyzing complex algorithms. I don't just write code; I design systems that resolve real-world inefficiencies. My approach is rooted in engineering fundamentals—understanding <Highlight>memory, complexity, and architecture</Highlight> before typing a single line of syntax.
                 </p>
               </div>
-            </motion.div>
+            </m.div>
 
             {/* Quick Stats Grid */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
@@ -313,7 +313,7 @@ export default function About() {
             </div>
 
             {/* Timeline */}
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -348,7 +348,7 @@ export default function About() {
                   delay={0.2}
                 />
               </div>
-            </motion.div>
+            </m.div>
 
           </div>
         </div>

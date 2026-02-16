@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 
-import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
+import { m, AnimatePresence, useReducedMotion } from "framer-motion";
 import { useProjects } from "@/hooks/use-portfolio";
 import { type Project } from "@shared/schema";
 import { Github, ExternalLink, Folder, Code, Layers, X, ArrowRight, Sparkles, Cpu } from "lucide-react";
@@ -80,7 +80,7 @@ const ProjectCard = ({ project, onPreview, index }: { project: Project; onPrevie
   };
 
   return (
-    <motion.div
+    <m.div
       ref={cardRef}
       layout
       initial={{ opacity: 0, y: 30 }}
@@ -98,7 +98,7 @@ const ProjectCard = ({ project, onPreview, index }: { project: Project; onPrevie
       }}
     >
       {/* Outer Glow */}
-      <motion.div
+      <m.div
         animate={{ opacity: isHovered ? 0.8 : 0 }}
         className="absolute -inset-1 rounded-2xl blur-xl"
         style={{
@@ -119,7 +119,7 @@ const ProjectCard = ({ project, onPreview, index }: { project: Project; onPrevie
       >
         {/* Scanline effect on hover */}
         {isHovered && (
-          <motion.div
+          <m.div
             className="absolute inset-0 pointer-events-none z-20"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -130,14 +130,14 @@ const ProjectCard = ({ project, onPreview, index }: { project: Project; onPrevie
                 background: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 212, 255, 0.03) 2px, rgba(0, 212, 255, 0.03) 4px)',
               }}
             />
-          </motion.div>
+          </m.div>
         )}
 
         {/* Image Area */}
         <div className="relative h-48 overflow-hidden">
           {project.imageUrl ? (
             <>
-              <motion.img
+              <m.img
                 src={project.imageUrl}
                 alt={project.title}
                 loading="lazy"
@@ -159,23 +159,23 @@ const ProjectCard = ({ project, onPreview, index }: { project: Project; onPrevie
               className="w-full h-full flex items-center justify-center"
               style={{ background: 'linear-gradient(135deg, rgba(20, 15, 40, 1) 0%, rgba(30, 20, 50, 1) 100%)' }}
             >
-              <motion.div
+              <m.div
                 animate={{ rotate: isHovered ? 360 : 0 }}
                 transition={{ duration: shouldReduceMotion ? 0 : 1.5, ease: 'easeInOut' }}
               >
                 <Folder className="w-16 h-16 text-gray-600" />
-              </motion.div>
+              </m.div>
             </div>
           )}
 
           {/* Overlay Actions */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0 }}
             animate={{ opacity: isHovered ? 1 : 0 }}
             className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent flex items-end justify-center pb-4 gap-3"
           >
             {project.githubUrl && (
-              <motion.a
+              <m.a
                 href={project.githubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -189,10 +189,10 @@ const ProjectCard = ({ project, onPreview, index }: { project: Project; onPrevie
                 aria-label="View Code"
               >
                 <Github className="w-5 h-5 text-cyan-400" />
-              </motion.a>
+              </m.a>
             )}
             {project.liveUrl && (
-              <motion.a
+              <m.a
                 href={project.liveUrl}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -206,9 +206,9 @@ const ProjectCard = ({ project, onPreview, index }: { project: Project; onPrevie
                 aria-label="View Live Demo"
               >
                 <ExternalLink className="w-5 h-5 text-purple-400" />
-              </motion.a>
+              </m.a>
             )}
-            <motion.button
+            <m.button
               onClick={() => onPreview(project)}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
@@ -220,12 +220,12 @@ const ProjectCard = ({ project, onPreview, index }: { project: Project; onPrevie
               aria-label="Quick Preview"
             >
               <Layers className="w-5 h-5 text-pink-400" />
-            </motion.button>
-          </motion.div>
+            </m.button>
+          </m.div>
 
           {/* Category Badge */}
           <div className="absolute top-3 right-3">
-            <motion.span
+            <m.span
               initial={{ x: 20, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               className="px-3 py-1.5 text-xs font-bold rounded-full uppercase tracking-wider"
@@ -237,24 +237,24 @@ const ProjectCard = ({ project, onPreview, index }: { project: Project; onPrevie
               }}
             >
               {project.category}
-            </motion.span>
+            </m.span>
           </div>
         </div>
 
         {/* Content Area */}
         <div className="p-5 flex flex-col flex-grow">
-          <motion.h3
+          <m.h3
             className="text-lg font-bold mb-2 flex items-center gap-2 transition-colors"
             style={{ color: isHovered ? catColor.text : '#e2e8f0' }}
           >
             {project.title}
-            <motion.span
+            <m.span
               initial={{ x: -5, opacity: 0 }}
               animate={{ x: isHovered ? 0 : -5, opacity: isHovered ? 1 : 0 }}
             >
               <ArrowRight className="w-4 h-4" />
-            </motion.span>
-          </motion.h3>
+            </m.span>
+          </m.h3>
           <p className="text-gray-400 mb-4 line-clamp-2 flex-grow text-sm leading-relaxed">
             {project.description}
           </p>
@@ -262,7 +262,7 @@ const ProjectCard = ({ project, onPreview, index }: { project: Project; onPrevie
           {/* Tech Stack */}
           <div className="flex flex-wrap gap-1.5 mb-4 pt-3 border-t border-gray-800/50">
             {project.techStack.slice(0, 4).map((tech: string, idx: number) => (
-              <motion.span
+              <m.span
                 key={idx}
                 initial={{ opacity: 0, y: 5 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -270,7 +270,7 @@ const ProjectCard = ({ project, onPreview, index }: { project: Project; onPrevie
                 className={`text-[10px] font-semibold px-2.5 py-1 rounded-md border ${techColors[tech] || "bg-gray-500/15 text-gray-400 border-gray-500/30"}`}
               >
                 {tech}
-              </motion.span>
+              </m.span>
             ))}
             {project.techStack.length > 4 && (
               <span className="text-[10px] font-medium px-2.5 py-1 rounded-md bg-gray-800/50 text-gray-500 border border-gray-700/50">
@@ -326,7 +326,7 @@ const ProjectCard = ({ project, onPreview, index }: { project: Project; onPrevie
         <div className="absolute top-0 left-0 w-8 h-8 border-l-2 border-t-2 rounded-tl-2xl" style={{ borderColor: `${catColor.text}30` }} />
         <div className="absolute bottom-0 right-0 w-8 h-8 border-r-2 border-b-2 rounded-br-2xl" style={{ borderColor: `${catColor.text}30` }} />
       </div>
-    </motion.div>
+    </m.div>
   );
 };
 
@@ -342,7 +342,7 @@ const PreviewModal = ({ project, onClose }: { project: Project; onClose: () => v
   const catColor = catColors[project.category] || catColors.Utility;
 
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -353,7 +353,7 @@ const PreviewModal = ({ project, onClose }: { project: Project; onClose: () => v
       <div className="absolute inset-0 bg-black/80 backdrop-blur-md" />
 
       {/* Modal */}
-      <motion.div
+      <m.div
         initial={{ scale: 0.9, y: 30 }}
         animate={{ scale: 1, y: 0 }}
         exit={{ scale: 0.9, y: 30 }}
@@ -457,8 +457,8 @@ const PreviewModal = ({ project, onClose }: { project: Project; onClose: () => v
         {/* Decorative corners */}
         <div className="absolute top-0 left-0 w-12 h-12 border-l-2 border-t-2 rounded-tl-2xl" style={{ borderColor: `${catColor.text}30` }} />
         <div className="absolute bottom-0 right-0 w-12 h-12 border-r-2 border-b-2 rounded-br-2xl" style={{ borderColor: `${catColor.text}30` }} />
-      </motion.div>
-    </motion.div>
+      </m.div>
+    </m.div>
   );
 };
 
@@ -481,7 +481,7 @@ const FilterButton = ({ label, isActive, onClick, count }: { label: string; isAc
   if (label !== "All" && count === 0) return null;
 
   return (
-    <motion.button
+    <m.button
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
       onClick={onClick}
@@ -500,7 +500,7 @@ const FilterButton = ({ label, isActive, onClick, count }: { label: string; isAc
           {count}
         </span>
       )}
-    </motion.button>
+    </m.button>
   );
 };
 
@@ -537,7 +537,7 @@ export default function Projects() {
       <div className="container mx-auto px-4 relative z-10">
         {/* Header */}
         <div className="text-center mb-12">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: -20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -549,9 +549,9 @@ export default function Projects() {
           >
             <Sparkles className="w-4 h-4 text-cyan-400" />
             <span className="text-sm font-medium text-cyan-400">Featured Work</span>
-          </motion.div>
+          </m.div>
 
-          <motion.h2
+          <m.h2
             initial={{ opacity: 0, y: -20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -565,9 +565,9 @@ export default function Projects() {
             }}
           >
             Projects
-          </motion.h2>
+          </m.h2>
 
-          <motion.p
+          <m.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
@@ -575,11 +575,11 @@ export default function Projects() {
             className="text-gray-400 max-w-xl mx-auto"
           >
             A collection of projects demonstrating my journey through software engineering and system design.
-          </motion.p>
+          </m.p>
         </div>
 
         {/* Filter Tabs */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -594,7 +594,7 @@ export default function Projects() {
               count={getCategoryCount(cat)}
             />
           ))}
-        </motion.div>
+        </m.div>
 
         {/* Projects Grid */}
         {isLoading ? (
@@ -608,7 +608,7 @@ export default function Projects() {
             ))}
           </div>
         ) : (
-          <motion.div
+          <m.div
             layout
             className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
           >
@@ -622,7 +622,7 @@ export default function Projects() {
                 />
               ))}
             </AnimatePresence>
-          </motion.div>
+          </m.div>
         )}
 
         {error && (
@@ -635,18 +635,18 @@ export default function Projects() {
         )}
 
         {filteredProjects.length === 0 && !isLoading && !error && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             className="text-center py-16"
           >
             <Folder className="w-16 h-16 mx-auto text-gray-700 mb-4" />
             <p className="text-gray-500">No projects found in this category.</p>
-          </motion.div>
+          </m.div>
         )}
 
         {/* Project Count */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -663,7 +663,7 @@ export default function Projects() {
             <Cpu className="w-4 h-4" />
             {filteredProjects.length} Projects Displayed
           </div>
-        </motion.div>
+        </m.div>
       </div>
 
       {/* Preview Modal */}

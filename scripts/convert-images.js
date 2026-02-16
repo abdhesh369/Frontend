@@ -1,23 +1,38 @@
-const sharp = require('sharp');
-const fs = require('fs');
-const path = require('path');
+import sharp from 'sharp';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-const sourceDirs = [
-  path.join(__dirname, '../Resources/images'),
-  path.join(__dirname, '../public/images')
-];
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-for (const dir of sourceDirs) {
-  if (!fs.existsSync(dir)) continue;
-  fs.readdirSync(dir).forEach(file => {
-    if (file.match(/\.(jpg|jpeg|png)$/i)) {
-      const inputPath = path.join(dir, file);
-      const outputPath = path.join(path.dirname(inputPath), file.replace(/\.(jpg|jpeg|png)$/i, '.webp'));
-      sharp(inputPath)
-        .webp({ quality: 80 })
-        .toFile(outputPath)
-        .then(() => console.log(`✓ Converted ${file} → ${path.basename(outputPath)}`))
-        .catch(err => console.error(`✗ Failed to convert ${file}:`, err));
-    }
-  });
+const publicDir = path.join(__dirname, '..', 'public');
+const imagesDir = path.join(publicDir, 'images');
+
+if (!fs.existsSync(imagesDir)) {
+  console.log('Images directory does not exist, skipping conversion.');
+  process.exit(0);
 }
+
+fs.readdirSync(imagesDir).forEach(file => {
+  if (file.match(/\.(jpg|jpeg|png)$/i)) {
+    const inputPath = path.join(imagesDir, file);
+    const outputPath = path.join(imagesDir, file.replace(/\.(jpg|jpeg|png)$/i, '.webp'));
+
+    // Skip if output already exists and is newer
+    if (fs.existsSync(outputPath)) {
+      const inputStats = fs.statSync(inputPath);
+      const outputStats = fs.statSync(outputPath);
+      if (outputStats.mtime > inputStats.mtime) {
+        console.log(`- ${file} is up to date.`);
+        return;
+      }
+    }
+
+    sharp(inputPath)
+      .webp({ quality: 85 })
+      .toFile(outputPath)
+      .then(() => console.log(`✓ Converted ${file} to WebP`))
+      .catch(err => console.error(`✗ Error converting ${file}:`, err));
+  }
+});

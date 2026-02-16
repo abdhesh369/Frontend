@@ -11,7 +11,7 @@ const PlexusBackground = lazy(() => import("@/components/PlexusBackground").then
 const AnalyticsTracker = lazy(() => import("@/components/AnalyticsTracker").then(m => ({ default: m.AnalyticsTracker })));
 
 // Lazy load pages for better performance
-const Home = lazy(() => import("@/pages/Home"));
+import Home from "@/pages/Home";
 const ProjectDetail = lazy(() => import("@/pages/ProjectDetail"));
 const NotFound = lazy(() => import("@/pages/not-found"));
 

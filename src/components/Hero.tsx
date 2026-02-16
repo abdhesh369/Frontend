@@ -82,13 +82,13 @@ const ProfileCard = () => {
       <div className="relative z-10 rounded-3xl overflow-hidden border border-white/10 shadow-2xl shadow-cyan-500/10 aspect-square max-w-md mx-auto bg-[#0a0520]/80 backdrop-blur-sm">
         {/* Profile Image */}
         <img
-          src="/images/Myphoto.jpg"
+          src="/images/Myphoto.webp"
           alt="Abdhesh Sah - Full Stack Engineer & System Designer"
           loading="eager"
           fetchPriority="high"
           decoding="async"
-          width={500}
-          height={500}
+          width={800}
+          height={800}
           className="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-overlay grayscale hover:grayscale-0 transition-all duration-700"
         />
 
