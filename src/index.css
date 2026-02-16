@@ -509,3 +509,64 @@
   text-shadow: 0 0 10px hsl(var(--skill-cyan)),
                0 0 20px hsl(var(--skill-cyan) / 0.5);
 }
+/* ==================== SYNTAX HIGHLIGHTING (HLJS) ==================== */
+.prose pre code {
+  @apply bg-transparent p-0 border-none;
+}
+
+.hljs-comment,
+.hljs-quote {
+  @apply text-gray-500 italic;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-addition {
+  @apply text-purple-400 font-semibold;
+}
+
+.hljs-number,
+.hljs-string,
+.hljs-meta .hljs-string,
+.hljs-literal,
+.hljs-doctag,
+.hljs-regexp {
+  @apply text-cyan-400;
+}
+
+.hljs-attribute,
+.hljs-attr,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-class .hljs-title,
+.hljs-type {
+  @apply text-yellow-400;
+}
+
+.hljs-symbol,
+.hljs-bullet,
+.hljs-subst,
+.hljs-meta,
+.hljs-meta .hljs-keyword,
+.hljs-selector-attr,
+.hljs-selector-pseudo,
+.hljs-link {
+  @apply text-orange-400;
+}
+
+.hljs-built_in,
+.hljs-deletion {
+  @apply text-red-400;
+}
+
+.hljs-formula {
+  @apply bg-gray-800;
+}
+
+.hljs-emphasis {
+  @apply italic;
+}
+
+.hljs-strong {
+  @apply font-bold;
+}
