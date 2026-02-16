@@ -1,16 +1,24 @@
+import { lazy, Suspense } from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-import About from "@/components/About";
-import Skills from "@/components/Skills";
-import WhyHireMe from "@/components/WhyHireMe";
-import EngineeringMindset from "@/components/EngineeringMindset";
-import Projects from "@/components/Projects";
-import CodeAndPractice from "@/components/CodeAndPractice";
-import Experience from "@/components/Experience";
-import Contact from "@/components/Contact";
-import Footer from "@/components/Footer";
 import { motion, useScroll, useSpring } from "framer-motion";
 import { useDocumentTitle } from "@/hooks/use-document-title";
+
+// Lazy-load below-the-fold sections to reduce initial bundle
+const About = lazy(() => import("@/components/About"));
+const Skills = lazy(() => import("@/components/Skills"));
+const WhyHireMe = lazy(() => import("@/components/WhyHireMe"));
+const EngineeringMindset = lazy(() => import("@/components/EngineeringMindset"));
+const Projects = lazy(() => import("@/components/Projects"));
+const CodeAndPractice = lazy(() => import("@/components/CodeAndPractice"));
+const Experience = lazy(() => import("@/components/Experience"));
+const Contact = lazy(() => import("@/components/Contact"));
+const Footer = lazy(() => import("@/components/Footer"));
+
+// Minimal placeholder while sections load
+function SectionFallback() {
+  return <div className="min-h-[200px]" />;
+}
 
 export default function Home() {
   useDocumentTitle("Abdhesh Sah - Full-Stack Engineer Portfolio");
@@ -33,17 +41,35 @@ export default function Home() {
 
       <main>
         <Hero />
-        <About />
-        <Skills />
-        <WhyHireMe />
-        <EngineeringMindset />
-        <Projects />
-        <CodeAndPractice />
-        <Experience />
-        <Contact />
+        <Suspense fallback={<SectionFallback />}>
+          <About />
+        </Suspense>
+        <Suspense fallback={<SectionFallback />}>
+          <Skills />
+        </Suspense>
+        <Suspense fallback={<SectionFallback />}>
+          <WhyHireMe />
+        </Suspense>
+        <Suspense fallback={<SectionFallback />}>
+          <EngineeringMindset />
+        </Suspense>
+        <Suspense fallback={<SectionFallback />}>
+          <Projects />
+        </Suspense>
+        <Suspense fallback={<SectionFallback />}>
+          <CodeAndPractice />
+        </Suspense>
+        <Suspense fallback={<SectionFallback />}>
+          <Experience />
+        </Suspense>
+        <Suspense fallback={<SectionFallback />}>
+          <Contact />
+        </Suspense>
       </main>
 
-      <Footer />
+      <Suspense fallback={null}>
+        <Footer />
+      </Suspense>
     </div>
   );
 }

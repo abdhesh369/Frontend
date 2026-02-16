@@ -218,8 +218,11 @@ export default function About() {
 
                   <img
                     src={profileImg}
-                    alt="Profile"
+                    alt="Abdhesh Sah - Full-Stack Engineer"
                     loading="lazy"
+                    decoding="async"
+                    width={400}
+                    height={500}
                     className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100"
                   />
 

@@ -141,6 +141,9 @@ const ProjectCard = ({ project, onPreview, index }: { project: Project; onPrevie
                 src={project.imageUrl}
                 alt={project.title}
                 loading="lazy"
+                decoding="async"
+                width={600}
+                height={300}
                 animate={{ scale: isHovered ? 1.1 : 1 }}
                 transition={{ duration: 0.5 }}
                 className="w-full h-full object-cover"
@@ -384,6 +387,10 @@ const PreviewModal = ({ project, onClose }: { project: Project; onClose: () => v
               <img
                 src={project.imageUrl}
                 alt={project.title}
+                loading="lazy"
+                decoding="async"
+                width={600}
+                height={224}
                 className="w-full h-56 object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#0a0820] via-transparent to-transparent" />

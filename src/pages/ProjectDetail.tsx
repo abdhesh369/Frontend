@@ -373,6 +373,10 @@ export default function ProjectDetail() {
                       <img
                         src={project.imageUrl}
                         alt={project.title}
+                        loading="lazy"
+                        decoding="async"
+                        width={1200}
+                        height={675}
                         className="w-full h-full object-cover"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-[#050510] via-transparent to-transparent" />

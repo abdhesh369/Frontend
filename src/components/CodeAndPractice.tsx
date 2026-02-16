@@ -185,6 +185,10 @@ export default function CodeAndPractice() {
                   <img
                     src="https://ghchart.rshah.org/00d4ff/abdhesh369"
                     alt="GitHub Contribution Graph"
+                    loading="lazy"
+                    decoding="async"
+                    width={800}
+                    height={128}
                     className="relative w-full rounded-lg opacity-90 hover:opacity-100 transition-all duration-300 filter hue-rotate-0"
                     style={{
                       maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)'
