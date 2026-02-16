@@ -10,8 +10,10 @@ import Experience from "@/components/Experience";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import { motion, useScroll, useSpring } from "framer-motion";
+import { useDocumentTitle } from "@/hooks/use-document-title";
 
 export default function Home() {
+  useDocumentTitle("Abdhesh Sah - Full-Stack Engineer Portfolio");
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,

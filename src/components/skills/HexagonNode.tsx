@@ -49,6 +49,10 @@ export const HexagonNode = ({
             viewport={{ once: true }}
             transition={{ type: 'spring', stiffness: 180, damping: 18, delay: 0.5 + Math.random() * 0.4 }}
             onClick={onClick}
+            onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && onClick()}
+            role="button"
+            tabIndex={0}
+            aria-label={`${node.name} (${node.status})`}
             onMouseEnter={onHover}
             onMouseLeave={onLeave}
             whileHover={{ scale: 1.12, zIndex: 20 }}

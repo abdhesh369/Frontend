@@ -99,7 +99,7 @@ const DataCard = ({ icon: Icon, label, value, href, delay }: { icon: React.Eleme
         <Icon className="w-5 h-5" />
       </div>
       <div className="flex-1 overflow-hidden">
-        <p className="text-[10px] uppercase tracking-widest text-gray-500 font-mono mb-0.5">{label}</p>
+        <p className="text-[10px] uppercase tracking-widest text-gray-400 font-mono mb-0.5">{label}</p>
         <p className="text-sm font-medium text-gray-200 truncate font-mono">{value}</p>
       </div>
       {href && <Copy className="w-4 h-4 text-gray-600 group-hover:text-cyan-400 transition-colors opacity-0 group-hover:opacity-100" />}
@@ -285,6 +285,7 @@ const SocialLink = ({ href, icon: Icon, label, delay }: { href: string; icon: Re
     whileHover={{ scale: 1.05 }}
     className="p-3 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-cyan-500/30 rounded-lg text-gray-400 hover:text-cyan-400 transition-all"
     title={label}
+    aria-label={label}
   >
     <Icon className="w-5 h-5" />
   </motion.a>

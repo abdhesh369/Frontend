@@ -15,6 +15,7 @@ import {
   ChevronRight
 } from "lucide-react";
 import DOMPurify from "dompurify";
+import { useDocumentTitle } from "@/hooks/use-document-title";
 
 // Floating particles (reused from main components)
 const FloatingParticles = () => {
@@ -164,6 +165,9 @@ export default function ProjectDetail() {
   const { data: projects, isLoading } = useProjects();
 
   const project = projects?.find(p => p.id === parseInt(params?.id || "0"));
+
+  // Dynamic Document Title
+  useDocumentTitle(project ? `${project.title} - Abdhesh Sah` : "Loading Project...");
 
   // Category colors
   const categoryColors: Record<string, { glow: string; text: string }> = {
