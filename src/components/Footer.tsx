@@ -1,6 +1,16 @@
 import { Github, Linkedin, Twitter, Facebook, Instagram, ArrowUp, Mail, Code2, Cpu, Globe } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
+import { useLocation } from "wouter";
+
+const footerNavItems = [
+  { name: "Home", href: "/" },
+  { name: "Projects", href: "#projects" },
+  { name: "Skills", href: "#skills" },
+  { name: "Experience", href: "#experience" },
+  { name: "Blog", href: "/blog" },
+  { name: "Contact", href: "#contact" },
+];
 
 const socialLinks = [
   { href: "https://github.com/abdhesh369", icon: Github, label: "Github", color: "#6e5494" },
@@ -12,9 +22,26 @@ const socialLinks = [
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
+  const [location, setLocation] = useLocation();
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleNavClick = (href: string) => {
+    if (href.startsWith("#")) {
+      if (location !== "/") {
+        setLocation("/");
+        setTimeout(() => {
+          document.getElementById(href.replace("#", ""))?.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      } else {
+        document.getElementById(href.replace("#", ""))?.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      setLocation(href);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
 
   return (
@@ -72,14 +99,14 @@ export default function Footer() {
           <div className="md:col-span-3 space-y-6">
             <h4 className="text-sm font-semibold text-white uppercase tracking-wider">Navigation</h4>
             <ul className="space-y-3">
-              {['Home', 'Projects', 'Skills', 'Experience', 'Contact'].map((item) => (
-                <li key={item}>
+              {footerNavItems.map((item) => (
+                <li key={item.name}>
                   <button
-                    onClick={() => document.getElementById(item.toLowerCase())?.scrollIntoView({ behavior: 'smooth' })}
+                    onClick={() => handleNavClick(item.href)}
                     className="text-gray-400 hover:text-cyan-400 transition-colors flex items-center gap-2 group"
                   >
                     <span className="w-1.5 h-1.5 rounded-full bg-cyan-500/50 group-hover:scale-150 transition-transform" />
-                    {item}
+                    {item.name}
                   </button>
                 </li>
               ))}
