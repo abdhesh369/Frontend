@@ -5,7 +5,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Loader2, Plus, Pencil, Trash2, Save, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { apiRequest } from "@/lib/queryClient";
+import { apiFetch } from "@/lib/api-helpers";
 
 export function SeoTab({ token }: { token: string | null }) {
     const { toast } = useToast();
@@ -16,15 +16,13 @@ export function SeoTab({ token }: { token: string | null }) {
     const { data: seoSettingsList, isLoading } = useQuery<SeoSettings[]>({
         queryKey: ["seo-settings"],
         queryFn: async () => {
-            const res = await apiRequest("GET", "/api/seo", undefined, token || undefined);
-            return res.json();
+            return apiFetch("/api/seo", token);
         },
     });
 
     const createMutation = useMutation({
         mutationFn: async (data: InsertSeoSettings) => {
-            const res = await apiRequest("POST", "/api/seo", data, token || undefined);
-            return res.json();
+            return apiFetch("/api/seo", token, { method: "POST", body: JSON.stringify(data) });
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["seo-settings"] });
@@ -39,8 +37,7 @@ export function SeoTab({ token }: { token: string | null }) {
 
     const updateMutation = useMutation({
         mutationFn: async ({ id, data }: { id: number; data: InsertSeoSettings }) => {
-            const res = await apiRequest("PATCH", `/api/seo/${id}`, data, token || undefined);
-            return res.json();
+            return apiFetch(`/api/seo/${id}`, token, { method: "PATCH", body: JSON.stringify(data) });
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["seo-settings"] });
@@ -55,7 +52,7 @@ export function SeoTab({ token }: { token: string | null }) {
 
     const deleteMutation = useMutation({
         mutationFn: async (id: number) => {
-            await apiRequest("DELETE", `/api/seo/${id}`, undefined, token || undefined);
+            await apiFetch(`/api/seo/${id}`, token, { method: "DELETE" });
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["seo-settings"] });

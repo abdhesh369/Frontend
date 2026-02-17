@@ -385,7 +385,7 @@ export const api = {
             path: "/api/articles",
             description: "List all articles (public/admin)",
             responses: {
-                200: z.array(articleSchema),
+                200: z.array(articleSchema as any),
                 500: errorSchemas.internal,
             },
         },
