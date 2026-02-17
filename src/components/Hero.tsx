@@ -83,6 +83,8 @@ const ProfileCard = () => {
         {/* Profile Image */}
         <img
           src="/images/Myphoto.webp"
+          srcSet="/images/Myphoto-500.webp 500w, /images/Myphoto-800.webp 800w, /images/Myphoto.webp 1080w"
+          sizes="(max-width: 1024px) 80vw, 450px"
           alt="Abdhesh Sah - Full Stack Engineer & System Designer"
           loading="eager"
           fetchPriority="high"
