@@ -324,7 +324,22 @@ export const selectSeoSettingsSchema = createSelectSchema(seoSettingsTable);
 export const insertSeoSettingsSchema = createInsertSchema(seoSettingsTable);
 
 export const selectArticleSchema = createSelectSchema(articlesTable);
-export const articleSchema = selectArticleSchema.extend({
+export const articleSchema = z.object({
+  id: z.number(),
+  title: z.string(),
+  slug: z.string(),
+  content: z.string(),
+  excerpt: z.string().nullable().optional(),
+  featuredImage: z.string().nullable().optional(),
+  status: z.enum(["draft", "published", "archived"]),
+  publishedAt: z.coerce.date().nullable(),
+  viewCount: z.number(),
+  readTimeMinutes: z.number(),
+  metaTitle: z.string().nullable().optional(),
+  metaDescription: z.string().nullable().optional(),
+  authorId: z.number().nullable().optional(),
+  createdAt: z.coerce.date(),
+  updatedAt: z.coerce.date(),
   tags: z.array(z.string()).optional(),
 });
 export const insertArticleSchema = createInsertSchema(articlesTable);
@@ -370,7 +385,7 @@ export type InsertAnalytics = z.infer<typeof insertAnalyticsSchema>;
 export type InsertEmailTemplate = z.infer<typeof insertEmailTemplateApiSchema>;
 export type InsertSeoSettings = z.infer<typeof insertSeoSettingsApiSchema>;
 
-export type Article = typeof articlesTable.$inferSelect & { tags?: string[] };
+export type Article = z.infer<typeof articleSchema>;
 export type ArticleTag = typeof articleTagsTable.$inferSelect;
 export type InsertArticle = z.infer<typeof insertArticleApiSchema>;
 
@@ -393,4 +408,7 @@ export function isMindset(obj: unknown): obj is Mindset {
 }
 export function isEmailTemplate(obj: unknown): obj is EmailTemplate {
   return emailTemplateSchema.safeParse(obj).success;
+}
+export function isArticle(obj: unknown): obj is Article {
+  return articleSchema.safeParse(obj).success;
 }
