@@ -15,7 +15,7 @@ import {
   ChevronRight
 } from "lucide-react";
 import DOMPurify from "dompurify";
-import { useDocumentTitle } from "@/hooks/use-document-title";
+import { SEO } from "@/components/SEO";
 
 // Floating particles (reused from main components)
 const FloatingParticles = () => {
@@ -166,8 +166,7 @@ export default function ProjectDetail() {
 
   const project = projects?.find(p => p.id === parseInt(params?.id || "0"));
 
-  // Dynamic Document Title
-  useDocumentTitle(project ? `${project.title} - Abdhesh Sah` : "Loading Project...");
+
 
   // Category colors
   const categoryColors: Record<string, { glow: string; text: string }> = {
@@ -236,6 +235,27 @@ export default function ProjectDetail() {
         background: 'linear-gradient(180deg, #050510 0%, #0a0520 30%, #0d0525 60%, #050510 100%)'
       }}
     >
+      <SEO
+        slug={`project-${project.id}`}
+        title={project.title ? `${project.title} - Abdhesh Sah` : "Project Detail"}
+        description={project.description || "Project details and overview."}
+        image={project.imageUrl || undefined}
+        keywords={project.techStack?.join(", ")}
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "SoftwareSourceCode",
+          "name": project.title,
+          "description": project.description,
+          "codeRepository": project.githubUrl,
+          "programmingLanguage": project.techStack,
+          "author": {
+            "@type": "Person",
+            "name": "Abdhesh Sah"
+          },
+          "dateCreated": new Date().toISOString().split('T')[0], // Approximated
+        }}
+      />
+
       {/* Background */}
       <div className="absolute inset-0">
         <FloatingParticles />

@@ -14,25 +14,31 @@ if (!fs.existsSync(imagesDir)) {
   process.exit(0);
 }
 
-fs.readdirSync(imagesDir).forEach(file => {
+const files = fs.readdirSync(imagesDir);
+console.log(`Found ${files.length} files in images directory.`);
+
+for (const file of files) {
   if (file.match(/\.(jpg|jpeg|png)$/i)) {
     const inputPath = path.join(imagesDir, file);
     const outputPath = path.join(imagesDir, file.replace(/\.(jpg|jpeg|png)$/i, '.webp'));
 
-    // Skip if output already exists and is newer
-    if (fs.existsSync(outputPath)) {
-      const inputStats = fs.statSync(inputPath);
-      const outputStats = fs.statSync(outputPath);
-      if (outputStats.mtime > inputStats.mtime) {
-        console.log(`- ${file} is up to date.`);
-        return;
+    try {
+      // Skip if output already exists and is newer
+      if (fs.existsSync(outputPath)) {
+        const inputStats = fs.statSync(inputPath);
+        const outputStats = fs.statSync(outputPath);
+        if (outputStats.mtime > inputStats.mtime) {
+          console.log(`- ${file} is up to date.`);
+          continue;
+        }
       }
-    }
 
-    sharp(inputPath)
-      .webp({ quality: 85 })
-      .toFile(outputPath)
-      .then(() => console.log(`✓ Converted ${file} to WebP`))
-      .catch(err => console.error(`✗ Error converting ${file}:`, err));
+      await sharp(inputPath)
+        .webp({ quality: 85 })
+        .toFile(outputPath);
+      console.log(`✓ Converted ${file} to WebP`);
+    } catch (err) {
+      console.error(`✗ Error converting ${file}:`, err);
+    }
   }
-});
+}

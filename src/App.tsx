@@ -13,6 +13,8 @@ const AnalyticsTracker = lazy(() => import("@/components/AnalyticsTracker").then
 // Lazy load pages for better performance
 import Home from "@/pages/Home";
 const ProjectDetail = lazy(() => import("@/pages/ProjectDetail"));
+const BlogList = lazy(() => import("@/pages/BlogList"));
+const BlogPost = lazy(() => import("@/pages/BlogPost"));
 const NotFound = lazy(() => import("@/pages/not-found"));
 
 // Lazy load admin pages
@@ -96,6 +98,8 @@ function Router() {
         {/* Public routes */}
         <Route path="/" component={Home} />
         <Route path="/project/:id" component={ProjectDetail} />
+        <Route path="/blog" component={BlogList} />
+        <Route path="/blog/:slug" component={BlogPost} />
 
         {/* Admin routes */}
         <Route path="/admin/login" component={AdminLogin} />

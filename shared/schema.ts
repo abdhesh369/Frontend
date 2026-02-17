@@ -1,4 +1,4 @@
-import { mysqlTable, text, int, varchar, timestamp, json, float } from "drizzle-orm/mysql-core";
+import { mysqlTable, text, int, varchar, timestamp, json, float, boolean } from "drizzle-orm/mysql-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -84,6 +84,47 @@ export const emailTemplatesTable = mysqlTable("email_templates", {
   name: varchar("name", { length: 255 }).notNull(),
   subject: varchar("subject", { length: 500 }).notNull(),
   body: text("body").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export const seoSettingsTable = mysqlTable("seo_settings", {
+  id: int("id").primaryKey().autoincrement(),
+  pageSlug: varchar("pageSlug", { length: 100 }).notNull().unique(), // e.g. 'home', 'about', 'project-1'
+  metaTitle: varchar("metaTitle", { length: 255 }).notNull(),
+  metaDescription: text("metaDescription").notNull(),
+  keywords: text("keywords"),
+  ogTitle: varchar("ogTitle", { length: 255 }),
+  ogDescription: text("ogDescription"),
+  ogImage: varchar("ogImage", { length: 500 }),
+  noindex: boolean("noindex").default(false),
+  canonicalUrl: varchar("canonicalUrl", { length: 500 }),
+  twitterCard: varchar("twitterCard", { length: 50 }).default("summary_large_image"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export const articlesTable = mysqlTable("articles", {
+  id: int("id").primaryKey().autoincrement(),
+  title: varchar("title", { length: 255 }).notNull(),
+  slug: varchar("slug", { length: 255 }).notNull().unique(),
+  content: text("content").notNull(),
+  excerpt: text("excerpt"),
+  featuredImage: varchar("featuredImage", { length: 500 }),
+  status: varchar("status", { length: 50 }).notNull().default("draft"), // draft, published, archived
+  publishedAt: timestamp("publishedAt"),
+  viewCount: int("viewCount").default(0).notNull(),
+  readTimeMinutes: int("readTimeMinutes").default(0).notNull(),
+  metaTitle: varchar("metaTitle", { length: 60 }),
+  metaDescription: varchar("metaDescription", { length: 160 }),
+  authorId: int("authorId"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export const articleTagsTable = mysqlTable("article_tags", {
+  id: int("id").primaryKey().autoincrement(),
+  articleId: int("articleId").notNull(),
+  tag: varchar("tag", { length: 50 }).notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 
@@ -261,10 +302,53 @@ export const insertEmailTemplateApiSchema = z.object({
   body: z.string().min(1).max(10000),
 });
 
+export const insertSeoSettingsApiSchema = z.object({
+  pageSlug: z.string().min(1).max(100),
+  metaTitle: z.string().min(1).max(255),
+  metaDescription: z.string().min(1).max(5000),
+  keywords: z.string().max(1000).optional(),
+  ogTitle: z.string().max(255).optional().nullable(),
+  ogDescription: z.string().max(5000).optional().nullable(),
+  ogImage: z.string().max(500).optional().nullable(),
+  noindex: z.boolean().default(false),
+  canonicalUrl: z.string().max(500).optional().nullable(),
+  twitterCard: z.string().max(50).default("summary_large_image"),
+});
+
 // ================= DATABASE SELECT/INSERT SCHEMAS =================
 
 export const selectEmailTemplateSchema = createSelectSchema(emailTemplatesTable);
 export const insertEmailTemplateSchema = createInsertSchema(emailTemplatesTable);
+
+export const selectSeoSettingsSchema = createSelectSchema(seoSettingsTable);
+export const insertSeoSettingsSchema = createInsertSchema(seoSettingsTable);
+
+export const selectArticleSchema = createSelectSchema(articlesTable);
+export const articleSchema = selectArticleSchema.extend({
+  tags: z.array(z.string()).optional(),
+});
+export const insertArticleSchema = createInsertSchema(articlesTable);
+
+export const selectArticleTagSchema = createSelectSchema(articleTagsTable);
+export const insertArticleTagSchema = createInsertSchema(articleTagsTable);
+
+// ================= CUSTOM API SCHEMAS =================
+
+export const insertArticleApiSchema = z.object({
+  title: z.string().min(1).max(255),
+  slug: z.string().min(1).max(255).optional(), // Can be auto-generated
+  content: z.string().min(1),
+  excerpt: z.string().optional(),
+  featuredImage: z.string().url().max(500).optional().nullable(),
+  status: z.enum(["draft", "published", "archived"]).default("draft"),
+  publishedAt: z.string().optional().nullable(), // Sent as ISO string
+  readTimeMinutes: z.number().optional(), // Can be auto-calculated
+  metaTitle: z.string().max(60).optional(),
+  metaDescription: z.string().max(160).optional(),
+  tags: z.array(z.string()).optional(), // Helper to insert tags
+});
+
+export const updateArticleApiSchema = insertArticleApiSchema.partial();
 
 // ================= TYPESCRIPT TYPES =================
 
@@ -276,6 +360,7 @@ export type Message = z.infer<typeof messageSchema>;
 export type Mindset = z.infer<typeof mindsetSchema>;
 export type Analytics = z.infer<typeof analyticsSchema>;
 export type EmailTemplate = z.infer<typeof emailTemplateSchema>;
+export type SeoSettings = typeof seoSettingsTable.$inferSelect;
 
 export type InsertProject = z.infer<typeof insertProjectApiSchema>;
 export type InsertSkill = z.infer<typeof insertSkillApiSchema>;
@@ -283,6 +368,11 @@ export type InsertExperience = z.infer<typeof insertExperienceApiSchema>;
 export type InsertMessage = z.infer<typeof insertMessageApiSchema>;
 export type InsertAnalytics = z.infer<typeof insertAnalyticsSchema>;
 export type InsertEmailTemplate = z.infer<typeof insertEmailTemplateApiSchema>;
+export type InsertSeoSettings = z.infer<typeof insertSeoSettingsApiSchema>;
+
+export type Article = typeof articlesTable.$inferSelect & { tags?: string[] };
+export type ArticleTag = typeof articleTagsTable.$inferSelect;
+export type InsertArticle = z.infer<typeof insertArticleApiSchema>;
 
 // ================= TYPE GUARDS =================
 

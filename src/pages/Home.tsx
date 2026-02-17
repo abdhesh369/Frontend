@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import { motion, useScroll, useSpring } from "framer-motion";
 import { useDocumentTitle } from "@/hooks/use-document-title";
+import { SEO } from "@/components/SEO";
 
 // Lazy-load below-the-fold sections to reduce initial bundle
 const About = lazy(() => import("@/components/About"));
@@ -21,7 +22,6 @@ function SectionFallback() {
 }
 
 export default function Home() {
-  useDocumentTitle("Abdhesh Sah - Full-Stack Engineer Portfolio");
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,
@@ -35,6 +35,29 @@ export default function Home() {
       <motion.div
         className="fixed top-0 left-0 right-0 h-1 bg-primary z-[100] origin-left"
         style={{ scaleX }}
+      />
+
+
+      <SEO
+        slug="home"
+        title="Abdhesh Sah - Full-Stack Engineer Portfolio"
+        description="Portfolio of Abdhesh Sah, a Full Stack Developer specializing in modern web technologies."
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": "Person",
+          name: "Abdhesh Sah",
+          url: "https://abdheshsah.com.np",
+          sameAs: [
+            "https://github.com/abdheshnayak",
+            "https://linkedin.com/in/abdhesh-sah-06900a266",
+            "https://twitter.com/SahAbdhesh",
+          ],
+          jobTitle: "Full Stack Developer",
+          worksFor: {
+            "@type": "Organization",
+            name: "Freelance",
+          },
+        }}
       />
 
       <Navbar />
