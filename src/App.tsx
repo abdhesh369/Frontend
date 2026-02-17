@@ -122,8 +122,8 @@ function DeferredBackground() {
   const [shouldLoad, setShouldLoad] = useState(false);
 
   useEffect(() => {
-    // Delay loading the 3D background for 3 seconds to let content render first
-    const timer = setTimeout(() => setShouldLoad(true), 3000);
+    // Delay loading the 3D background briefly to let content render first
+    const timer = setTimeout(() => setShouldLoad(true), 500);
     return () => clearTimeout(timer);
   }, []);
 
