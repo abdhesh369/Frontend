@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import { Button } from "@/components/ui/button";
 import { Upload, X, Loader2, Image as ImageIcon } from "lucide-react";
+import { API_BASE_URL } from "@/lib/api-helpers";
 
 interface ImageUploadProps {
     value: string;
@@ -35,7 +36,11 @@ export function ImageUpload({ value, onChange, label = "Image", className }: Ima
 
         try {
             const token = localStorage.getItem('auth_token');
-            const response = await fetch('/api/upload', {
+            if (!token) {
+                throw new Error('Not authenticated. Please log in again.');
+            }
+
+            const response = await fetch(`${API_BASE_URL}/api/upload`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -43,13 +48,16 @@ export function ImageUpload({ value, onChange, label = "Image", className }: Ima
                 body: formData
             });
 
-            if (!response.ok) throw new Error('Upload failed');
-
             const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.details || data.message || 'Upload failed');
+            }
+
             onChange(data.url);
-        } catch (error) {
+        } catch (error: any) {
             console.error('Upload error:', error);
-            alert('Failed to upload image');
+            alert(`Failed to upload image: ${error.message}`);
         } finally {
             setUploading(false);
             // Reset input
