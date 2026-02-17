@@ -34,7 +34,7 @@ export function ImageUpload({ value, onChange, label = "Image", className }: Ima
         formData.append('image', file);
 
         try {
-            const token = localStorage.getItem('token');
+            const token = localStorage.getItem('auth_token');
             const response = await fetch('/api/upload', {
                 method: 'POST',
                 headers: {
