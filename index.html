@@ -12,6 +12,16 @@
     gtag('config', 'G-3Q2BQ64DRC');
   </script>
 
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    script-src 'self' 'unsafe-inline' https://www.googletagmanager.com;
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+    img-src 'self' data: https: http:;
+    font-src 'self' https://fonts.gstatic.com;
+    connect-src 'self' https://your-backend.onrender.com https://www.google-analytics.com http://localhost:5000;
+    frame-ancestors 'none';
+  ">
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/png" href="/favicon.gif?v=2" />

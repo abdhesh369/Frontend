@@ -1,6 +1,18 @@
-export const API_BASE_URL = import.meta.env.DEV
-    ? "http://localhost:5000"
-    : (import.meta.env.VITE_API_URL || "http://localhost:5000");
+export const API_BASE_URL = (() => {
+    if (import.meta.env.DEV) {
+        return "http://localhost:5000";
+    }
+
+    const prodUrl = import.meta.env.VITE_API_URL;
+
+    if (!prodUrl) {
+        console.error("❌ VITE_API_URL not configured!");
+        console.error("Set it in your .env.production file or deployment settings");
+        throw new Error("VITE_API_URL environment variable is required in production");
+    }
+
+    return prodUrl;
+})();
 
 export function authHeaders(token: string | null) {
     const h: Record<string, string> = { "Content-Type": "application/json" };
@@ -11,6 +23,7 @@ export function authHeaders(token: string | null) {
 export async function apiFetch(path: string, token: string | null, opts: RequestInit = {}) {
     const res = await fetch(`${API_BASE_URL}${path}`, {
         ...opts,
+        credentials: 'include',
         headers: { ...authHeaders(token), ...(opts.headers as Record<string, string> ?? {}) },
     });
     if (!res.ok) {

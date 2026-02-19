@@ -3,9 +3,7 @@ import { useLocation } from "wouter";
 import { useAuth } from "@/hooks/auth-context";
 import { useToast } from "@/hooks/use-toast";
 
-const API_BASE_URL = import.meta.env.DEV
-    ? "http://localhost:5000"
-    : (import.meta.env.VITE_API_URL || "http://localhost:5000");
+import { API_BASE_URL } from "@/lib/api-helpers";
 
 export default function AdminLogin() {
     const [password, setPassword] = useState("");
@@ -27,10 +25,11 @@ export default function AdminLogin() {
 
         setLoading(true);
         try {
-            const res = await fetch(`${API_BASE_URL}/api/auth/login`, {
+            const res = await fetch(`${API_BASE_URL}/auth/login`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ password }),
+                credentials: 'include'
             });
 
             if (!res.ok) {

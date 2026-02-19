@@ -1,4 +1,5 @@
 import React from "react";
+import DOMPurify from "dompurify";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { SEO } from "@/components/SEO";
@@ -152,7 +153,7 @@ export default function BlogPost() {
                         prose-strong:text-white prose-code:text-primary prose-pre:bg-white/5
                         prose-img:rounded-2xl prose-img:border prose-img:border-white/10
                         animate-fade-in pt-8"
-                        dangerouslySetInnerHTML={{ __html: article.content }}
+                        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(article.content) }}
                     />
 
                     <footer className="mt-16 pt-16 border-t border-white/10">
