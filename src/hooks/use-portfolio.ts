@@ -2,12 +2,7 @@ import { api } from "@shared/routes";
 import type { InsertMessage } from "@shared/schema";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
-
-/* ---------------------------------- */
-/* API Base URL */
-/* ---------------------------------- */
-
-const API_BASE_URL = import.meta.env.DEV ? "http://localhost:5000" : (import.meta.env.VITE_API_URL || "http://localhost:5000");
+import { API_BASE_URL } from "@/lib/api-helpers";
 
 /* ---------------------------------- */
 /* Generic fetch helper */
@@ -20,13 +15,12 @@ async function fetchAndParse<T>(
 ): Promise<T> {
   try {
     const url = `${API_BASE_URL}${path}`;
-    const token = localStorage.getItem("auth_token");
-    const headers: Record<string, string> = {};
-    if (token) {
-      headers["Authorization"] = `Bearer ${token}`;
-    }
 
-    const res = await fetch(url, { headers });
+    // We strictly use HttpOnly cookies now, so no need for Authorization header manually here
+    // unless we are in a non-browser environment (not applicable here).
+    const res = await fetch(url, {
+      credentials: 'include'
+    });
 
     if (!res.ok) {
       const errorText = await res.text();
@@ -46,7 +40,7 @@ async function fetchAndParse<T>(
       throw error;
     }
     if (error instanceof TypeError && error.message.includes('fetch')) {
-      throw new Error('Network error: Unable to connect to the server. Please make sure the backend is running.');
+      throw new Error('Network error: Unable to connect to the server. Please check your internet connection or if the backend is down.');
     }
     throw new Error(`${errorMessage}: ${String(error)}`);
   }
@@ -67,8 +61,6 @@ export function useProjects() {
       ),
   });
 }
-
-
 
 export function useSkills() {
   return useQuery({
@@ -160,6 +152,7 @@ export function useSendMessage() {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: 'include',
         body: JSON.stringify(data),
       });
 
@@ -207,6 +200,7 @@ export function useLogin() {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: 'include', // Important to receive the HttpOnly cookie
         body: JSON.stringify({ password }),
       });
 
@@ -215,16 +209,13 @@ export function useLogin() {
         throw new Error(error.message || "Login failed");
       }
 
-      const data = await res.json();
-      return data as { token: string };
+      return res.json();
     },
-    onSuccess: (data) => {
-      localStorage.setItem("auth_token", data.token);
+    onSuccess: () => {
       toast({
         title: "Login Successful",
         description: "Welcome back, Admin!",
       });
-      // Redirect or refresh could happen here if needed
       window.location.reload();
     },
     onError: (error) => {
@@ -241,12 +232,9 @@ export function useAnalyticsSummary() {
   return useQuery({
     queryKey: ["analytics-summary"],
     queryFn: () => {
-      const token = localStorage.getItem("auth_token");
-      if (!token) throw new Error("Unauthorized");
-
       return fetchAndParse(
         "/api/analytics/summary",
-        { parse: (d) => d }, // Flexibly handle summary data
+        { parse: (d) => d },
         "Failed to fetch analytics summary"
       );
     },
@@ -256,9 +244,15 @@ export function useAnalyticsSummary() {
 /**
  * Logout utility
  */
-export function logout() {
-  localStorage.removeItem("auth_token");
-  window.location.reload();
+export async function logout() {
+  try {
+    await fetch(`${API_BASE_URL}/api/auth/logout`, {
+      method: "POST",
+      credentials: 'include'
+    });
+  } finally {
+    window.location.reload();
+  }
 }
 
 /* ---------------------------------- */

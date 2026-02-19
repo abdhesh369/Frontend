@@ -6,9 +6,10 @@ export const API_BASE_URL = (() => {
     const prodUrl = import.meta.env.VITE_API_URL;
 
     if (!prodUrl) {
-        console.error("❌ VITE_API_URL not configured!");
-        console.error("Set it in your .env.production file or deployment settings");
-        throw new Error("VITE_API_URL environment variable is required in production");
+        console.warn("⚠️ VITE_API_URL not configured. Falling back to relative path or placeholder.");
+        // Fallback to relative or a safe default if available, 
+        // but don't throw to avoid total boot failure.
+        return window.location.origin;
     }
 
     return prodUrl;
